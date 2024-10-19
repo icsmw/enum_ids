@@ -2,6 +2,8 @@
 
 mod attr;
 mod context;
+#[cfg(test)]
+mod test;
 
 use context::Context;
 use proc_macro::TokenStream;
@@ -22,8 +24,10 @@ use syn::{parse_macro_input, Attribute, Fields, ItemEnum};
 /// # Example
 ///
 /// ```rust
-/// #[derive(Debug, PartialEq, Clone, Eq, PartialOrd, Ord, Copy)]
+/// use enum_ids::enum_ids;
+///
 /// #[enum_ids]
+/// #[derive(Debug, PartialEq, Clone, Eq, PartialOrd, Ord)]
 /// pub enum Kind {
 ///     A(i32),
 ///     B { value: String },
@@ -33,8 +37,11 @@ use syn::{parse_macro_input, Attribute, Fields, ItemEnum};
 /// or with attributes
 ///
 /// ```rust
-/// #[derive(Debug, PartialEq, Clone, Eq, PartialOrd, Ord, Copy)]
-/// #[enum_ids(getter = "get_id", attr = "#[derive(serde::Serialize)]", public)]
+/// use enum_ids::enum_ids;
+/// use serde::{Deserialize, Serialize};
+///
+/// #[enum_ids(getter = "get_id", derive = "Deserialize, Serialize", public)]
+/// #[derive(Debug, Clone)]
 /// pub enum Kind {
 ///     A(i32),
 ///     B { value: String },

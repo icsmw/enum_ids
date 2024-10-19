@@ -7,10 +7,10 @@
 Apply the `#[enum_ids]` attribute to your enum to automatically generate a corresponding ID enum and a getter method.
 
 ```rust
-use enum_macro::enum_ids;
+use enum_ids::enum_ids;
 
-#[derive(Debug, PartialEq, Clone, Eq, PartialOrd, Ord, Copy)]
 #[enum_ids]
+#[derive(Debug, PartialEq, Clone, Eq, PartialOrd, Ord)]
 pub enum Kind {
     A(i32),
     B { value: String },
@@ -27,7 +27,7 @@ fn main() {
 The macro generates:
 
 ```rust
-#[derive(Debug, PartialEq, Clone, Eq, PartialOrd, Ord, Copy)]
+#[derive(Debug, PartialEq, Clone, Eq, PartialOrd, Ord)]
 pub enum Kind {
     A(i32),
     B { value: String },
@@ -44,7 +44,7 @@ impl Kind {
     }
 }
 
-#[derive(Debug, PartialEq, Clone, Eq, PartialOrd, Ord, Copy)]
+#[derive(Debug, PartialEq, Clone, Eq, PartialOrd, Ord)]
 pub enum KindId {
     A,
     B,
@@ -144,8 +144,8 @@ pub enum Kind {
 You can combine multiple attributes to achieve the desired configuration. For example:
 
 ```rust
-#[derive(Debug, PartialEq, Clone, Eq, PartialOrd, Ord, Copy)]
 #[enum_ids(derive = "Serialize", getter = "get_id", name = "KindIdentifier", public)]
+#[derive(Debug, PartialEq, Clone, Eq, PartialOrd, Ord)]
 pub enum Kind {
     A(i32),
     B { value: String },

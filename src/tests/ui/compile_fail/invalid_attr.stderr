@@ -1,0 +1,11 @@
+error: Cannot parse attribute "unknown": Unknown attribute "unknown"
+ --> src/tests/ui/compile_fail/invalid_attr.rs:3:12
+  |
+3 | #[enum_ids(unknown = "value")]
+  |            ^^^^^^^
+
+error[E0433]: failed to resolve: use of undeclared type `Kind`
+  --> src/tests/ui/compile_fail/invalid_attr.rs:11:13
+   |
+11 |     let _ = Kind::A(1);
+   |             ^^^^ use of undeclared type `Kind`
