@@ -1,3 +1,7 @@
+[![LICENSE](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE.txt)
+[![](https://github.com/icsmw/enum_ids/actions/workflows/on_pull_request.yml/badge.svg)](https://github.com/icsmw/enum_ids/actions/workflows/on_pull_request.yml)
+![Crates.io](https://img.shields.io/crates/v/enum_ids)
+
 # `enum_ids` Procedural Macro
 
 `enum_ids` is a procedural attribute macro designed to generate a companion enum with only the variant names from an existing enum. It provides customizable options to control attribute inheritance, method naming, visibility, and the naming of the generated enum.
