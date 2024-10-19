@@ -83,6 +83,13 @@ pub fn enum_ids(args: TokenStream, item: TokenStream) -> TokenStream {
         }
     });
 
+    let iter_values = input.variants.iter().map(|v| {
+        let variant = &v.ident;
+        quote! {
+            #dest_ident::#variant
+        }
+    });
+
     let expanded = quote! {
         #input
 
@@ -106,6 +113,13 @@ pub fn enum_ids(args: TokenStream, item: TokenStream) -> TokenStream {
         #visibility enum #dest_ident {
             #(#variants),*
         }
+
+        impl #dest_ident {
+            pub fn get_iter() -> std::vec::IntoIter<#dest_ident> {
+                vec![#(#iter_values),*].into_iter()
+            }
+        }
+
     };
 
     TokenStream::from(expanded)

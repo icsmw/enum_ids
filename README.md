@@ -14,7 +14,7 @@ Apply the `#[enum_ids]` attribute to your enum to automatically generate a corre
 use enum_ids::enum_ids;
 
 #[enum_ids]
-#[derive(Debug, PartialEq, Clone, Eq, PartialOrd, Ord)]
+#[derive(Debug, Clone)]
 pub enum Kind {
     A(i32),
     B { value: String },
@@ -31,7 +31,7 @@ fn main() {
 The macro generates:
 
 ```rust
-#[derive(Debug, PartialEq, Clone, Eq, PartialOrd, Ord)]
+#[derive(Debug, Clone)]
 pub enum Kind {
     A(i32),
     B { value: String },
@@ -48,7 +48,7 @@ impl Kind {
     }
 }
 
-#[derive(Debug, PartialEq, Clone, Eq, PartialOrd, Ord)]
+#[derive(Debug, Clone)]
 pub enum KindId {
     A,
     B,
@@ -149,7 +149,7 @@ You can combine multiple attributes to achieve the desired configuration. For ex
 
 ```rust
 #[enum_ids(derive = "Serialize", getter = "get_id", name = "KindIdentifier", public)]
-#[derive(Debug, PartialEq, Clone, Eq, PartialOrd, Ord)]
+#[derive(Debug, Clone)]
 pub enum Kind {
     A(i32),
     B { value: String },
@@ -173,6 +173,51 @@ impl Kind {
             B {..} => KindIdentifier:B,
             C => KindIdentifier::C,
         }
+    }
+}
+```
+
+## Getting ID of parent enum
+
+In case if attribute `getter` hasn't been used, getting of ID would be possible on method `id()` of parent enum.
+
+Example
+```rust
+use enum_ids::enum_ids;
+
+#[enum_ids]
+#[derive(Debug, Clone)]
+pub enum Kind {
+    A(i32),
+    B { value: String },
+    C,
+}
+fn main() {
+    assert_eq!(Kind::A(10).id(), KindId::A);
+}
+```
+
+## Getting a full list of all IDs
+
+`enum_ids` also gives the possibility to get a full list of all IDs
+
+Example
+```rust
+use enum_ids::enum_ids;
+
+#[enum_ids]
+#[derive(Debug, Clone)]
+pub enum Kind {
+    A(i32),
+    B { value: String },
+    C,
+}
+
+fn main() {
+    let mut count = 0;
+    let mut all = KindId::get_iter();
+    while let Some(id) = all.next() {
+        println!("{id:?}");
     }
 }
 ```
