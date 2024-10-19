@@ -3,12 +3,27 @@ name = "enum_ids"
 version = "0.1.0"
 edition = "2021"
 authors = ["d.astafyev@outlook.com"]
-description = "Creates typescript definitions based on rust code"
+description = "Generate a companion ID enum and an associated getter method for the annotated enum"
 license = "Apache-2.0"
-keywords = ["typescript", "node", "node-bindgen", "javascript"]
-categories = ["api-bindings", "web-programming"]
-repository = "https://github.com/icsmw/tslink.git"
-homepage = "https://github.com/icsmw/tslink"
+keywords = [
+    "enum",
+    "derive",
+    "procedural macro",
+    "macro",
+    "code generation",
+    "id",
+    "identifier",
+    "getter",
+    "attribute macro",
+    "Rust macro",
+]
+categories = [
+    "procedural-macros",
+    "attribute-macros",
+    "code-generation",
+]
+repository = "https://github.com/icsmw/enum_ids.git"
+homepage = "https://github.com/icsmw/enum_ids.git"
 readme = "README.md"
 
 [lib]
