@@ -1,0 +1,20 @@
+[package]
+name = "enum_ids"
+version = "0.1.0"
+edition = "2021"
+authors = ["d.astafyev@outlook.com"]
+description = "Creates typescript definitions based on rust code"
+license = "Apache-2.0"
+keywords = ["typescript", "node", "node-bindgen", "javascript"]
+categories = ["api-bindings", "web-programming"]
+repository = "https://github.com/icsmw/tslink.git"
+homepage = "https://github.com/icsmw/tslink"
+readme = "README.md"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+syn = { version = "2.0", features = ["full"] }
+quote = "1.0"
+proc-macro2 = "1.0"
