@@ -8,14 +8,9 @@ license = "Apache-2.0"
 keywords = [
     "enum",
     "derive",
-    "procedural macro",
-    "macro",
-    "code generation",
     "id",
     "identifier",
-    "getter",
-    "attribute macro",
-    "Rust macro",
+    "converting",
 ]
 categories = [
     "procedural-macros",
