@@ -13,9 +13,9 @@ keywords = [
     "converting",
 ]
 categories = [
-    "procedural-macros",
-    "attribute-macros",
-    "code-generation",
+    "data-structures",
+    "development-tools",
+    "value-formatting",
 ]
 repository = "https://github.com/icsmw/enum_ids.git"
 homepage = "https://github.com/icsmw/enum_ids.git"
