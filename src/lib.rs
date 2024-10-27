@@ -96,12 +96,6 @@ pub fn enum_ids(args: TokenStream, item: TokenStream) -> TokenStream {
         impl #src {
             /// Returns the corresponding ID variant for the enum instance.
             ///
-            /// # Examples
-            ///
-            /// ```rust
-            /// let kind = Kind::A(10);
-            /// assert_eq!(kind.id(), KindId::A);
-            /// ```
             pub fn #getter_ident(&self) -> #dest_ident {
                 match self {
                     #(#match_arms)*
