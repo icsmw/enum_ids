@@ -109,7 +109,7 @@ pub fn enum_ids(args: TokenStream, item: TokenStream) -> TokenStream {
         }
 
         impl #dest_ident {
-            pub fn get_iter() -> std::vec::IntoIter<#dest_ident> {
+            pub fn into_iter() -> std::vec::IntoIter<#dest_ident> {
                 vec![#(#iter_values),*].into_iter()
             }
         }

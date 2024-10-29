@@ -10,7 +10,7 @@ pub enum Kind {
 
 fn main() {
     let mut count = 0;
-    let mut all = KindId::get_iter();
+    let mut all = KindId::into_iter();
     while let Some(el) = all.next() {
         match el {
             KindId::A => count += 1,
