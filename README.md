@@ -199,7 +199,7 @@ fn main() {
 
 ## Getting a full list of all IDs
 
-`enum_ids` also gives the possibility to get a full list of all IDs. Compared with standard `into_iter`, this the method will not move data of the origin enum.
+`enum_ids` also gives the possibility to get a full list of all IDs with method `as_vec`. It will return vector of all IDs.
 
 Example
 ```rust
@@ -215,7 +215,7 @@ pub enum Kind {
 
 fn main() {
     let mut count = 0;
-    let mut all = KindId::into_iter();
+    let mut all = KindId::as_vec().into_iter();
     while let Some(id) = all.next() {
         println!("{id:?}");
     }

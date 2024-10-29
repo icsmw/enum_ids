@@ -1,3 +1,9 @@
+# 0.2.3 (29.10.2024)
+
+## Correction
+
+- Rename method `into_iter` to `as_vec`
+
 # 0.2.2 (29.10.2024)
 
 ## Correction
