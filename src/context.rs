@@ -25,6 +25,12 @@ impl Context {
         Self { attrs }
     }
 
+    pub fn display_required(&self) -> bool {
+        self.attrs
+            .iter()
+            .any(|at| matches!(at, attr::Attr::Display))
+    }
+
     /// Determines the name of the generated ID enum.
     ///
     /// If an `EnumName` attribute is present, its value is used.
@@ -211,9 +217,10 @@ impl Parse for Context {
                                 )
                             })?;
                         attrs.push(match attr {
-                            attr::Attr::NoDerive | attr::Attr::NotPublic | attr::Attr::Public => {
-                                attr
-                            }
+                            attr::Attr::NoDerive
+                            | attr::Attr::NotPublic
+                            | attr::Attr::Public
+                            | attr::Attr::Display => attr,
                             _ => {
                                 return Err(syn::Error::new(
                                     ident.span(),

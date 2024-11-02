@@ -90,6 +90,30 @@ pub fn enum_ids(args: TokenStream, item: TokenStream) -> TokenStream {
         }
     });
 
+    let disaply_impl = if context.display_required() {
+        let arms = input.variants.iter().map(|v| {
+            let variant = &v.ident;
+            quote! {
+                #dest_ident::#variant => stringify!(#src::#variant),
+            }
+        });
+        quote! {
+            impl std::fmt::Display for #dest_ident {
+                fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                    write!(
+                        f,
+                        "{}",
+                        match self {
+                            #(#arms)*
+                        }
+                    )
+                }
+            }
+        }
+    } else {
+        quote! {}
+    };
+
     let expanded = quote! {
         #input
 
@@ -113,6 +137,8 @@ pub fn enum_ids(args: TokenStream, item: TokenStream) -> TokenStream {
                 vec![#(#iter_values),*]
             }
         }
+
+        #disaply_impl
 
     };
 

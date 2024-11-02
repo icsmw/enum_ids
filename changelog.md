@@ -1,3 +1,9 @@
+# 0.3.0 (02.11.2024)
+
+## Features
+
+- Add directive `display` to add implementation of std::fmt::Dispaly
+
 # 0.2.3 (29.10.2024)
 
 ## Correction

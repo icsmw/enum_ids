@@ -7,6 +7,8 @@ use std::{convert::TryFrom, fmt};
 /// method naming, visibility, and the naming of the generated enum.
 #[derive(Clone, Debug)]
 pub enum Attr {
+    /// Adds implementation of std::fmt::Display
+    Display,
     /// Prevents the copying of any `derive` attributes from the source enum to the generated enum.
     NoDerive,
 
@@ -54,6 +56,8 @@ impl TryFrom<&str> for Attr {
             Ok(Attr::EnumName(String::new()))
         } else if Attr::NoDerive.to_string() == value {
             Ok(Attr::NoDerive)
+        } else if Attr::Display.to_string() == value {
+            Ok(Attr::Display)
         } else if Attr::NotPublic.to_string() == value {
             Ok(Attr::NotPublic)
         } else if Attr::Public.to_string() == value {
@@ -84,6 +88,7 @@ impl fmt::Display for Attr {
                 Self::Derive(..) => "derive",
                 Self::Getter(..) => "getter",
                 Self::EnumName(..) => "name",
+                Self::Display => "display",
                 Self::NoDerive => "no_derive",
                 Self::NotPublic => "not_public",
                 Self::Public => "public",
