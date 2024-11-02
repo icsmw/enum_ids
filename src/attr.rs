@@ -7,7 +7,7 @@ use std::{convert::TryFrom, fmt};
 /// method naming, visibility, and the naming of the generated enum.
 #[derive(Clone, Debug)]
 pub enum Attr {
-    /// Adds implementation of std::fmt::Display
+    /// Adds implementation of `std::fmt::Display`
     Display,
     /// Prevents the copying of any `derive` attributes from the source enum to the generated enum.
     NoDerive,
