@@ -62,26 +62,7 @@ pub fn enum_ids(args: TokenStream, item: TokenStream) -> TokenStream {
 
     let derive_attrs: Vec<Attribute> = context.derive(&input.attrs);
 
-    let match_arms = input.variants.iter().map(|v| {
-        let variant = &v.ident;
-        match &v.fields {
-            Fields::Unit => {
-                quote! {
-                    #src::#variant => #dest_ident::#variant,
-                }
-            }
-            Fields::Unnamed(_) => {
-                quote! {
-                    #src::#variant(..) => #dest_ident::#variant,
-                }
-            }
-            Fields::Named(_) => {
-                quote! {
-                    #src::#variant{..} => #dest_ident::#variant,
-                }
-            }
-        }
-    });
+    let match_arms = input.variants.iter().map(|v| get_arm(v, src, &dest_ident));
 
     let iter_values = input.variants.iter().map(|v| {
         let variant = &v.ident;
@@ -90,29 +71,9 @@ pub fn enum_ids(args: TokenStream, item: TokenStream) -> TokenStream {
         }
     });
 
-    let disaply_impl = if context.display_required() {
-        let arms = input.variants.iter().map(|v| {
-            let variant = &v.ident;
-            quote! {
-                #dest_ident::#variant => stringify!(#src::#variant),
-            }
-        });
-        quote! {
-            impl std::fmt::Display for #dest_ident {
-                fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-                    write!(
-                        f,
-                        "{}",
-                        match self {
-                            #(#arms)*
-                        }
-                    )
-                }
-            }
-        }
-    } else {
-        quote! {}
-    };
+    let disaply_impl = get_display_impl(&context, &input, &dest_ident, src);
+
+    let disaply_from_value_impl = get_display_from_value_required(&context, &input, src);
 
     let expanded = quote! {
         #input
@@ -140,7 +101,94 @@ pub fn enum_ids(args: TokenStream, item: TokenStream) -> TokenStream {
 
         #disaply_impl
 
+        #disaply_from_value_impl
     };
 
     TokenStream::from(expanded)
+}
+
+fn get_arm(
+    variant: &syn::Variant,
+    src: &proc_macro2::Ident,
+    dest_ident: &proc_macro2::Ident,
+) -> proc_macro2::TokenStream {
+    let variant_ident = &variant.ident;
+    match &variant.fields {
+        Fields::Unit => {
+            quote! {
+                #src::#variant_ident => #dest_ident::#variant_ident,
+            }
+        }
+        Fields::Unnamed(_) => {
+            quote! {
+                #src::#variant_ident(..) => #dest_ident::#variant_ident,
+            }
+        }
+        Fields::Named(_) => {
+            quote! {
+                #src::#variant_ident{..} => #dest_ident::#variant_ident,
+            }
+        }
+    }
+}
+
+fn get_display_impl(
+    cx: &Context,
+    input: &ItemEnum,
+    dest_ident: &proc_macro2::Ident,
+    src: &proc_macro2::Ident,
+) -> proc_macro2::TokenStream {
+    if cx.display_required() {
+        let arms = input.variants.iter().map(|v| {
+            let variant = &v.ident;
+            quote! {
+                #dest_ident::#variant => stringify!(#src::#variant),
+            }
+        });
+        quote! {
+            impl std::fmt::Display for #dest_ident {
+                fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                    write!(
+                        f,
+                        "{}",
+                        match self {
+                            #(#arms)*
+                        }
+                    )
+                }
+            }
+        }
+    } else {
+        quote! {}
+    }
+}
+
+fn get_display_from_value_required(
+    cx: &Context,
+    input: &ItemEnum,
+    src: &proc_macro2::Ident,
+) -> proc_macro2::TokenStream {
+    if cx.display_from_value_required() {
+        let arms = input.variants.iter().map(|v| {
+            let variant = &v.ident;
+            quote! {
+                #src::#variant(v) => v.to_string(),
+            }
+        });
+        quote! {
+            impl std::fmt::Display for #src {
+                fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                    write!(
+                        f,
+                        "{}",
+                        match self {
+                            #(#arms)*
+                        }
+                    )
+                }
+            }
+        }
+    } else {
+        quote! {}
+    }
 }

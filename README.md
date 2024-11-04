@@ -144,6 +144,68 @@ pub enum Kind {
 }
 ```
 
+`#[enum_ids(display)]` - Will add implementation of `std::fmt::Display` to generated enum.
+
+Example:
+```rust
+#[enum_ids(dispaly)]
+pub enum Kind {
+    A(i32),
+    B(String),
+    C,
+}
+```
+
+Will genarate in addition
+
+```rust
+impl std::fmt::Disaply for KindId {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                KindId::A => "Kind::A",
+                KindId::B => "Kind::B",
+                KindId::C => "Kind::C",
+            }
+        )
+    }
+}
+```
+
+`#[enum_ids(display_from_value)]` - Will add implementation of `std::fmt::Display` to origin enum. 
+
+**Note** this option is available only for single unnamed fields.
+
+Example:
+```rust
+#[enum_ids(display_from_value)]
+pub enum Kind {
+    A(i32),
+    B(String),
+    C(f64),
+}
+```
+
+Will genarate in addition
+
+```rust
+impl std::fmt::Disaply for Kind {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                KindId::A(v) => v.to_string(),
+                KindId::B(v) => v.to_string(),
+                KindId::C(v) => v.to_string(),
+            }
+        )
+    }
+}
+```
+
 ## Combined Attributes
 You can combine multiple attributes to achieve the desired configuration. For example:
 

@@ -1,3 +1,9 @@
+# 0.4.0 (04.11.2024)
+
+## Features
+
+- Add directive `display_from_value` to add implementation of std::fmt::Dispaly of origin enum
+
 # 0.3.0 (02.11.2024)
 
 ## Features

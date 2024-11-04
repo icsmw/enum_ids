@@ -25,10 +25,18 @@ impl Context {
         Self { attrs }
     }
 
+    /// Determines `display` is required
     pub fn display_required(&self) -> bool {
         self.attrs
             .iter()
             .any(|at| matches!(at, attr::Attr::Display))
+    }
+
+    /// Determines `display_from_value` is required
+    pub fn display_from_value_required(&self) -> bool {
+        self.attrs
+            .iter()
+            .any(|at| matches!(at, attr::Attr::DisplayFromValue))
     }
 
     /// Determines the name of the generated ID enum.
@@ -220,7 +228,8 @@ impl Parse for Context {
                             attr::Attr::NoDerive
                             | attr::Attr::NotPublic
                             | attr::Attr::Public
-                            | attr::Attr::Display => attr,
+                            | attr::Attr::Display
+                            | attr::Attr::DisplayFromValue => attr,
                             _ => {
                                 return Err(syn::Error::new(
                                     ident.span(),
