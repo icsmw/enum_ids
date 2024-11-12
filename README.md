@@ -174,6 +174,36 @@ impl std::fmt::Disaply for KindId {
 }
 ```
 
+`#[enum_ids(display_variants)]` - Will add implementation of `std::fmt::Display` to generated enum using only variant's names (without enum's name).
+
+Example:
+```rust
+#[enum_ids(display_variants)]
+pub enum Kind {
+    A(i32),
+    B(String),
+    C,
+}
+```
+
+Will genarate in addition
+
+```rust
+impl std::fmt::Disaply for KindId {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                KindId::A => "A",
+                KindId::B => "B",
+                KindId::C => "C",
+            }
+        )
+    }
+}
+```
+
 `#[enum_ids(display_from_value)]` - Will add implementation of `std::fmt::Display` to origin enum. 
 
 **Note** this option is available only for single unnamed fields.

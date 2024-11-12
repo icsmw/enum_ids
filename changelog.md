@@ -1,3 +1,9 @@
+# 0.5.0 (12.11.2024)
+
+## Features
+
+- Add directive `display_variant` to add implementation of std::fmt::Dispaly of origin enum with only variants without reference to enum's name
+
 # 0.4.0 (04.11.2024)
 
 ## Features

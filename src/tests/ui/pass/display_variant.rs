@@ -1,6 +1,6 @@
 use enum_ids::enum_ids;
 
-#[enum_ids(display)]
+#[enum_ids(display_variant)]
 #[derive(Debug, PartialEq, Clone, Eq, PartialOrd, Ord)]
 pub enum Kind {
     A(i32),
@@ -11,5 +11,5 @@ pub enum Kind {
 fn main() {
     let _ = Kind::A(10).id();
     println!("{}", KindId::A);
-    assert_eq!(KindId::A.to_string(), "Kind :: A");
+    assert_eq!(KindId::A.to_string(), "A");
 }

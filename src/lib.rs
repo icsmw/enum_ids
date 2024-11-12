@@ -73,6 +73,8 @@ pub fn enum_ids(args: TokenStream, item: TokenStream) -> TokenStream {
 
     let disaply_impl = get_display_impl(&context, &input, &dest_ident, src);
 
+    let disaply_variant_impl = get_display_variant_impl(&context, &input, &dest_ident);
+
     let disaply_from_value_impl = get_display_from_value_required(&context, &input, src);
 
     let expanded = quote! {
@@ -100,6 +102,8 @@ pub fn enum_ids(args: TokenStream, item: TokenStream) -> TokenStream {
         }
 
         #disaply_impl
+
+        #disaply_variant_impl
 
         #disaply_from_value_impl
     };
@@ -143,6 +147,36 @@ fn get_display_impl(
             let variant = &v.ident;
             quote! {
                 #dest_ident::#variant => stringify!(#src::#variant),
+            }
+        });
+        quote! {
+            impl std::fmt::Display for #dest_ident {
+                fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                    write!(
+                        f,
+                        "{}",
+                        match self {
+                            #(#arms)*
+                        }
+                    )
+                }
+            }
+        }
+    } else {
+        quote! {}
+    }
+}
+
+fn get_display_variant_impl(
+    cx: &Context,
+    input: &ItemEnum,
+    dest_ident: &proc_macro2::Ident,
+) -> proc_macro2::TokenStream {
+    if cx.display_variant() {
+        let arms = input.variants.iter().map(|v| {
+            let variant = &v.ident;
+            quote! {
+                #dest_ident::#variant => stringify!(#variant),
             }
         });
         quote! {

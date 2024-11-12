@@ -10,8 +10,13 @@ pub enum Attr {
     /// Adds implementation of `std::fmt::Display` for origin enum; can be used only with unnamed
     /// fields like `Field(value)` and will add convertation `Field(value) => value.to_string()`
     DisplayFromValue,
+
     /// Adds implementation of `std::fmt::Display`
     Display,
+
+    /// Adds implementation of `std::fmt::Display` without reference to name of enum
+    DisplayVariant,
+
     /// Prevents the copying of any `derive` attributes from the source enum to the generated enum.
     NoDerive,
 
@@ -61,6 +66,8 @@ impl TryFrom<&str> for Attr {
             Ok(Attr::NoDerive)
         } else if Attr::Display.to_string() == value {
             Ok(Attr::Display)
+        } else if Attr::DisplayVariant.to_string() == value {
+            Ok(Attr::DisplayVariant)
         } else if Attr::DisplayFromValue.to_string() == value {
             Ok(Attr::DisplayFromValue)
         } else if Attr::NotPublic.to_string() == value {
@@ -94,6 +101,7 @@ impl fmt::Display for Attr {
                 Self::Getter(..) => "getter",
                 Self::EnumName(..) => "name",
                 Self::Display => "display",
+                Self::DisplayVariant => "display_variant",
                 Self::DisplayFromValue => "display_from_value",
                 Self::NoDerive => "no_derive",
                 Self::NotPublic => "not_public",
