@@ -172,11 +172,34 @@ fn get_display_variant_impl(
     input: &ItemEnum,
     dest_ident: &proc_macro2::Ident,
 ) -> proc_macro2::TokenStream {
-    if cx.display_variant() {
+    fn to_snake_case<S: AsRef<str>>(name: S) -> String {
+        let mut result = String::new();
+
+        for (i, c) in name.as_ref().chars().enumerate() {
+            if c.is_uppercase() {
+                if i != 0 {
+                    result.push('_');
+                }
+                result.push(c.to_ascii_lowercase());
+            } else {
+                result.push(c);
+            }
+        }
+
+        result
+    }
+    if cx.display_variant() || cx.display_variant_snake() {
         let arms = input.variants.iter().map(|v| {
             let variant = &v.ident;
-            quote! {
-                #dest_ident::#variant => stringify!(#variant),
+            if cx.display_variant() {
+                quote! {
+                    #dest_ident::#variant => stringify!(#variant),
+                }
+            } else {
+                let variant_str = to_snake_case(variant.to_string());
+                quote! {
+                    #dest_ident::#variant => #variant_str,
+                }
             }
         });
         quote! {

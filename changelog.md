@@ -1,3 +1,9 @@
+# 0.6.0 (26.01.2025)
+
+## Features
+
+- Add directive `display_variant_snake` to add implementation of std::fmt::Dispaly of origin enum with only variants without reference to enum's name and converted into snake case
+
 # 0.5.1 (26.01.2025)
 
 ## Fixes
@@ -25,6 +31,7 @@
 # 0.2.3 (29.10.2024)
 
 ## Correction
+
 
 - Rename method `into_iter` to `as_vec`
 

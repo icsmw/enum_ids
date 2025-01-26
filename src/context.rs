@@ -39,6 +39,13 @@ impl Context {
             .any(|at| matches!(at, attr::Attr::DisplayVariant))
     }
 
+    /// Determines `display_variant_snake` is required
+    pub fn display_variant_snake(&self) -> bool {
+        self.attrs
+            .iter()
+            .any(|at| matches!(at, attr::Attr::DisplayVariantSnake))
+    }
+
     /// Determines `display_from_value` is required
     pub fn display_from_value_required(&self) -> bool {
         self.attrs
@@ -237,6 +244,7 @@ impl Parse for Context {
                             | attr::Attr::Public
                             | attr::Attr::Display
                             | attr::Attr::DisplayVariant
+                            | attr::Attr::DisplayVariantSnake
                             | attr::Attr::DisplayFromValue => attr,
                             _ => {
                                 return Err(syn::Error::new(

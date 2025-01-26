@@ -204,6 +204,36 @@ impl std::fmt::Disaply for KindId {
 }
 ```
 
+`#[enum_ids(display_variant_snake)]` - Will add implementation of `std::fmt::Display` to generated enum using only variant's names (without enum's name) and converted into snake case.
+
+Example:
+```rust
+#[enum_ids(display_variant_snake)]
+pub enum Kind {
+    FieldA(i32),
+    FieldB(String),
+    C,
+}
+```
+
+Will genarate in addition
+
+```rust
+impl std::fmt::Disaply for KindId {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                KindId::FieldA => "field_a",
+                KindId::FieldB => "field_b",
+                KindId::C => "c",
+            }
+        )
+    }
+}
+```
+
 `#[enum_ids(display_from_value)]` - Will add implementation of `std::fmt::Display` to origin enum. 
 
 **Note** this option is available only for single unnamed fields.

@@ -17,6 +17,9 @@ pub enum Attr {
     /// Adds implementation of `std::fmt::Display` without reference to name of enum
     DisplayVariant,
 
+    /// Adds implementation of `std::fmt::Display` without reference to name of enum and convert name into snake case
+    DisplayVariantSnake,
+
     /// Prevents the copying of any `derive` attributes from the source enum to the generated enum.
     NoDerive,
 
@@ -68,6 +71,8 @@ impl TryFrom<&str> for Attr {
             Ok(Attr::Display)
         } else if Attr::DisplayVariant.to_string() == value {
             Ok(Attr::DisplayVariant)
+        } else if Attr::DisplayVariantSnake.to_string() == value {
+            Ok(Attr::DisplayVariantSnake)
         } else if Attr::DisplayFromValue.to_string() == value {
             Ok(Attr::DisplayFromValue)
         } else if Attr::NotPublic.to_string() == value {
@@ -102,6 +107,7 @@ impl fmt::Display for Attr {
                 Self::EnumName(..) => "name",
                 Self::Display => "display",
                 Self::DisplayVariant => "display_variant",
+                Self::DisplayVariantSnake => "display_variant_snake",
                 Self::DisplayFromValue => "display_from_value",
                 Self::NoDerive => "no_derive",
                 Self::NotPublic => "not_public",
