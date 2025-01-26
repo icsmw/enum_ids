@@ -1,3 +1,9 @@
+# 0.5.1 (26.01.2025)
+
+## Fixes
+
+- Fix typo in docs (correct `display_variants` to `display_variant`)
+
 # 0.5.0 (12.11.2024)
 
 ## Features

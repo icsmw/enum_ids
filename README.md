@@ -174,11 +174,11 @@ impl std::fmt::Disaply for KindId {
 }
 ```
 
-`#[enum_ids(display_variants)]` - Will add implementation of `std::fmt::Display` to generated enum using only variant's names (without enum's name).
+`#[enum_ids(display_variant)]` - Will add implementation of `std::fmt::Display` to generated enum using only variant's names (without enum's name).
 
 Example:
 ```rust
-#[enum_ids(display_variants)]
+#[enum_ids(display_variant)]
 pub enum Kind {
     A(i32),
     B(String),
