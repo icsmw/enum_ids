@@ -1,3 +1,9 @@
+# 0.6.1 (22.02.2025)
+
+## Fixes
+
+- Correct work with generics enums
+
 # 0.6.0 (26.01.2025)
 
 ## Features

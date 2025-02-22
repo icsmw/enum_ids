@@ -51,7 +51,9 @@ use syn::{parse_macro_input, Attribute, Fields, ItemEnum};
 #[proc_macro_attribute]
 pub fn enum_ids(args: TokenStream, item: TokenStream) -> TokenStream {
     let context: Context = parse_macro_input!(args as Context);
-    let input = parse_macro_input!(item as ItemEnum);
+    let input: ItemEnum = parse_macro_input!(item as ItemEnum);
+
+    let (impl_generics, ty_generics, where_clause) = input.generics.split_for_impl();
 
     let src = &input.ident;
     let visibility = context.visibility(&input.vis);
@@ -80,7 +82,7 @@ pub fn enum_ids(args: TokenStream, item: TokenStream) -> TokenStream {
     let expanded = quote! {
         #input
 
-        impl #src {
+        impl #impl_generics #src #ty_generics #where_clause {
             /// Returns the corresponding ID variant for the enum instance.
             ///
             pub fn #getter_ident(&self) -> #dest_ident {
