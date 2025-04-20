@@ -46,6 +46,13 @@ impl Context {
             .any(|at| matches!(at, attr::Attr::DisplayVariantSnake))
     }
 
+    /// Determines `iterator` is required
+    pub fn iterator(&self) -> bool {
+        self.attrs
+            .iter()
+            .any(|at| matches!(at, attr::Attr::Iterator))
+    }
+
     /// Determines `display_from_value` is required
     pub fn display_from_value_required(&self) -> bool {
         self.attrs
@@ -245,6 +252,7 @@ impl Parse for Context {
                             | attr::Attr::Display
                             | attr::Attr::DisplayVariant
                             | attr::Attr::DisplayVariantSnake
+                            | attr::Attr::Iterator
                             | attr::Attr::DisplayFromValue => attr,
                             _ => {
                                 return Err(syn::Error::new(

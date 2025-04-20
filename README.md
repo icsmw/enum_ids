@@ -266,6 +266,34 @@ impl std::fmt::Disaply for Kind {
 }
 ```
 
+`#[enum_ids(iterator)]` - Will add implementation of method `as_vec()` to **original** (!) enum.
+
+Example:
+```rust
+#[enum_ids(iterator)]
+pub enum Kind {
+    A,
+    B,
+    C,
+}
+```
+
+Will genarate
+
+```rust
+impl Kind {
+    fn as_vec() -> Vec<Kind> {
+        vec![
+            Kind::A,
+            Kind::B,
+            Kind::C
+        ]
+    }
+}
+```
+
+> **Note:** This method only works with *flat* enums, i.e., enums whose variants do not hold any associated values.
+
 ## Combined Attributes
 You can combine multiple attributes to achieve the desired configuration. For example:
 

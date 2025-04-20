@@ -79,6 +79,8 @@ pub fn enum_ids(args: TokenStream, item: TokenStream) -> TokenStream {
 
     let disaply_from_value_impl = get_display_from_value_required(&context, &input, src);
 
+    let self_itarator_impl = get_iterator(&context, &input, src);
+
     let expanded = quote! {
         #input
 
@@ -96,6 +98,8 @@ pub fn enum_ids(args: TokenStream, item: TokenStream) -> TokenStream {
         #visibility enum #dest_ident {
             #(#variants),*
         }
+
+        #self_itarator_impl
 
         impl #dest_ident {
             pub fn as_vec() -> Vec<#dest_ident> {
@@ -244,6 +248,30 @@ fn get_display_from_value_required(
                             #(#arms)*
                         }
                     )
+                }
+            }
+        }
+    } else {
+        quote! {}
+    }
+}
+
+fn get_iterator(
+    cx: &Context,
+    input: &ItemEnum,
+    src: &proc_macro2::Ident,
+) -> proc_macro2::TokenStream {
+    if cx.iterator() {
+        let iter_values = input.variants.iter().map(|v| {
+            let variant = &v.ident;
+            quote! {
+                #src::#variant
+            }
+        });
+        quote! {
+            impl #src {
+                pub fn as_vec() -> Vec<#src> {
+                    vec![#(#iter_values),*]
                 }
             }
         }

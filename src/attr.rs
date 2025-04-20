@@ -20,6 +20,9 @@ pub enum Attr {
     /// Adds implementation of `std::fmt::Display` without reference to name of enum and convert name into snake case
     DisplayVariantSnake,
 
+    /// Adds method `as_vec()`, which returns all possible variants of the enum. Works only with "flat" enums
+    Iterator,
+
     /// Prevents the copying of any `derive` attributes from the source enum to the generated enum.
     NoDerive,
 
@@ -73,6 +76,8 @@ impl TryFrom<&str> for Attr {
             Ok(Attr::DisplayVariant)
         } else if Attr::DisplayVariantSnake.to_string() == value {
             Ok(Attr::DisplayVariantSnake)
+        } else if Attr::Iterator.to_string() == value {
+            Ok(Attr::Iterator)
         } else if Attr::DisplayFromValue.to_string() == value {
             Ok(Attr::DisplayFromValue)
         } else if Attr::NotPublic.to_string() == value {
@@ -108,6 +113,7 @@ impl fmt::Display for Attr {
                 Self::Display => "display",
                 Self::DisplayVariant => "display_variant",
                 Self::DisplayVariantSnake => "display_variant_snake",
+                Self::Iterator => "iterator",
                 Self::DisplayFromValue => "display_from_value",
                 Self::NoDerive => "no_derive",
                 Self::NotPublic => "not_public",

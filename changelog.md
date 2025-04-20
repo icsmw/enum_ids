@@ -1,3 +1,9 @@
+# 0.7.0 (20.04.2025)
+
+## Features
+
+- Add directive `iterator` to add method `as_vec()` for simple enums
+
 # 0.6.1 (22.02.2025)
 
 ## Fixes
